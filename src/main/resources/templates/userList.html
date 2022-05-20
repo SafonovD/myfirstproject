@@ -1,0 +1,50 @@
+
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Список пользователей</title>
+
+    <div th:replace="fragments/header::header-css"></div>
+</head>
+<body>
+
+<div th:replace="fragments/header:: header"></div>
+<br><br><br><br>
+
+<div class="container mt-5" th:if="${not #lists.isEmpty(user)}">
+    <h2>Список Пользователей</h2>
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th>Логин</th>
+            <th>Роль</th>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Email</th>
+            <th>Создан</th>
+            <th>Изменение</th>
+            <th>Удаление</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="users : ${user}">
+            <td th:text="${users.username}"></td>
+             <td>
+                 <div class="m-md-n4" th:each="roles : ${users.roles}" th:utext="${roles.name}">
+                 </div><br>
+             </td>
+            <td th:text="${users.firstName}"></td>
+            <td th:text="${users.lastName}"></td>
+            <td th:text="${users.email}"></td>
+            <td th:text="${users.getCreated()}"></td>
+            <td><a th:href="@{'/user/'+${users.id}}" />Редактировать</td>
+            <td><a th:href="@{/user/delete/{id}(id=${users.id})}"/>Удалить</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:replace="fragments/footer.html :: footer"></div>
+
+</body>
+</html>

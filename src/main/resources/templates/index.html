@@ -1,0 +1,30 @@
+
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Главная Страница</title>
+
+    <div th:replace="fragments/header::header-css"></div>
+</head>
+<body>
+
+<div th:replace="fragments/header:: header"></div>
+<br><br><br><br><br><br>
+
+<div class="container mt-5">
+    <div class="starter-template">
+
+        <h1 th:inline="text">Привет [[${#httpServletRequest.remoteUser}]]!</h1>
+
+
+    </div>
+
+</div>
+
+<!-- /.container -->
+
+<div th:replace="fragments/footer.html :: footer"></div>
+
+</body>
+</html>

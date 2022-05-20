@@ -1,0 +1,40 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/header :: header-css"></div>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"></div>
+<br><br><br><br><br><br>
+<div class="container mt-5">
+
+    <div class="starter-template">
+        <h1>Admin page </h1>
+        <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+    </div>
+    <div>
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file" type="" >Загрузка файла csv формата</label>
+                <input type="file" name="file" id="file">
+
+                <input class="form-control" type="text" name="themename" placeholder="Название темы тесты">
+                <label for="descriptForm">Описание</label>
+                <textarea class="form-control" id="descriptForm" rows="3" name="descript" placeholder="Описание теста"></textarea>
+
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Добавить" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+
+
+
+</div>
+<!-- /.container -->
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">>
+<head>
+    <title>Редактирование пользователя</title>
+
+    <div th:replace="fragments/header::header-css"></div>
+</head>
+<body>
+
+<div th:replace="fragments/header:: header"></div>
+<br><br><br><br><br><br>
+
+    <form th:action="@{/user/update}" method="post" th:object="${useredit}">
+        <div class="container flex-fill">
+            <table class="table thead-light">
+                <thead class="table-bordered">
+                <tr>
+                    <th>Логин</th>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Email</th>
+                    <th>Пароль</th>
+                    <th>Права</th>
+                    <th>сохранить</th>
+                </tr>
+                </thead>
+                <tbody class="table-bordered" >
+                <tr>
+                    <td><input class="form-control" type="text" name="username" th:value="${useredit.username}"
+                               th:fild="${useredit.username}"/></td>
+                    <td><input class="form-control" type="text" name="firstname" th:value="${useredit.firstName}"
+                               th:field="${useredit.firstName}"/></td>
+                    <td><input class="form-control" type="text" name="lastname" th:value="${useredit.lastName}"
+                               th:field="${useredit.lastName}"/></td>
+                    <td><input class="form-control" type="email" name="email" th:value="${useredit.email}"
+                               th:field="${useredit.email}"/></td>
+                    <td><input class="form-control" type="password" name="password" th:value="${useredit.password}"
+                               th:field="${useredit.password}"/></td>
+                    <td>
+                        <div class="custom-control custom-checkbox custom-control-inline" th:each="rol : ${roleList}"
+                             th:value="${rol.id}">
+                            <input type="checkbox" class="custom-control-input" id="customCheck"
+                                   th:field="${useredit.roles}"
+                                   th:value="${rol.id}">
+                            <label class="custom-control-inline" th:text="${rol.name}" for="customCheck"></label>
+                        </div>
+                    </td>
+                    <td>
+                        <input type="hidden" name="id" th:field="*{id}"/>
+                        <input class="btn btn-primary" type="submit" value="Update"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </form>
+
+
+<div th:replace="fragments/footer.html :: footer"></div>
+
+</body>
+</html>

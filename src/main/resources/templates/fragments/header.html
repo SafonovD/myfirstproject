@@ -1,0 +1,48 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <div th:fragment="header-css">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+              crossorigin="anonymous">
+        <link rel="stylesheet" th:href="@{/css/main.css}" href="../../css/main.css"/>
+        <!-- this is header-css -->
+    </div>
+</head>
+<body>
+<div th:fragment="header">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed"
+                        data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Навигация</span>
+                </button>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="navbar-link navbar-brand" href="/" th:href="@{/index}">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                      <a sec:authorize="anonymous" class="navbar-link navbar-brand" href="/login" th:href="@{/login}">Войти</a>
+                    </li>
+                    <li class="nav-item">
+                        <a sec:authorize="anonymous" class="navbar-link navbar-brand" href="/registration.html" th:href="@{/registration}">Регистрация</a>
+                    </li>
+                    <li class="nav-item"><a class="navbar-link navbar-brand" th:href="@{/test}">Пройти тест</a></li>
+                    <li>
+                        <a  sec:authorize="hasAnyRole('ROLE_ADMIN')" class="navbar-link navbar-brand" th:href="@{/user}">Список пользователей</a>
+                    </li>
+                    <li class="nav-item"><a class="navbar-link navbar-brand" sec:authorize="hasAnyRole('ROLE_ADMIN')" th:href="@{/admin}">Загрузка тестов</a></li>
+                </ul>
+                <div class="navbar-text navbar-right" >[[${#httpServletRequest.remoteUser}]]</div>
+                <a class="nav navbar-brand navbar-right" methods="post" sec:authorize="isAuthenticated()" th:href="@{/logout}">Выход</a>
+            </div>
+        </div>
+    </nav>
+</div>
+</body>
+</html>

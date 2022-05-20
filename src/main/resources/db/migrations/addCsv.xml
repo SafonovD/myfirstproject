@@ -1,0 +1,121 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+
+    <changeSet id="1.0.2-Create-table-exam_theme" author="Dmitry.Safonov" >
+        <createTable tableName="exam">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(100)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="description" type="VARCHAR(100)">
+                <constraints nullable="true" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.1-Create-table-questions" author="Dmitry.Safonov" >
+        <createTable tableName="question">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="multi_answer" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="exam_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.3-addForeignKeyConstraintExam_themeQuestions" author="Dmitry.Safonov">
+        <addForeignKeyConstraint baseColumnNames="exam_id"
+                                 baseTableName="question"
+                                 constraintName="fk_exam_id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="exam"/>
+    </changeSet>
+    <changeSet id="Create-table-answers" author="Dmitry.Safonov">
+        <createTable tableName="answer">
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+
+            <column name="correct_answer" type="boolean" defaultValue="false">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="questions_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.3-addForeignKeyConstraintQuestions" author="Dmitry.Safonov">
+        <addForeignKeyConstraint baseColumnNames="questions_id"
+                                 baseTableName="answer"
+                                 constraintName="fk_question_id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="question"/>
+    </changeSet>
+
+    <changeSet id="1.0.2-Create-table-result" author="Dmitry.Safonov" >
+        <createTable tableName="result">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        <column name="start" type="TIMESTAMP" defaultValueDate="CURRENT_TIMESTAMP">
+            <constraints nullable="false"/>
+        </column>
+            <column name="finish" type="TIMESTAMP" defaultValueDate="CURRENT_TIMESTAMP">
+                <constraints nullable="true"/>
+            </column>
+            <column name="correct_answers" type="INTEGER">
+                <constraints nullable="true" />
+            </column>
+            <column name="grade" type="INTEGER">
+                <constraints nullable="true" />
+            </column>
+            <column name="question_count" type="INTEGER">
+                <constraints nullable="true" />
+            </column>
+            <column name="exam_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1.0.3-addForeignKeyConstraintResult-2" author="Dmitry.Safonov">
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="result"
+                                 constraintName="fk_user_id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="users"/>
+    </changeSet>
+    <changeSet id="1.0.4-addForeignKeyConstraintAnswer" author="Dmitry.Safonov">
+        <addForeignKeyConstraint baseColumnNames="exam_id"
+                                 baseTableName="result"
+                                 constraintName="fk_exam_id"
+                                 onDelete="CASCADE"
+                                 onUpdate="RESTRICT"
+                                 referencedColumnNames="id"
+                                 referencedTableName="exam"/>
+    </changeSet>
+</databaseChangeLog>
