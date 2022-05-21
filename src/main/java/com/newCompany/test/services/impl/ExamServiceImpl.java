@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Random;
 
 @Service
@@ -18,7 +19,6 @@ import java.util.Random;
 public class ExamServiceImpl implements ExamService {
 
     private final ExamRepository examRepository;
-
     private final ResultRepository resultRepository;
 
     public Exam getRandomExam() {
@@ -28,13 +28,6 @@ public class ExamServiceImpl implements ExamService {
         return examRepository.findAll().get(examNumber);
     }
 
-    @Transactional
-    public Long insertExam(Result result) {
-        final Result p = resultRepository.save(result);
-        resultRepository.flush();
-//        return result.getId();
-        return p.getId();
-    }
 
     public Exam getExam(Long examId) {
         final Exam exam = examRepository.findById(examId).orElse(null);
@@ -49,5 +42,12 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public Exam save(Exam exam) {
         return examRepository.save(exam);
+    }
+
+    @Override
+    public List<Exam> getAll() {
+        List<Exam> examList = examRepository.findAll();
+        log.info("IN getAll - {} exzamen found ",examList.size());
+        return examList;
     }
 }

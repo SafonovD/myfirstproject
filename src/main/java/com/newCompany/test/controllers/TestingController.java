@@ -17,8 +17,6 @@ import com.newCompany.test.services.impl.ResultServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -30,7 +28,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @Slf4j
@@ -49,28 +46,25 @@ public class TestingController {
     private final ExamService examService;
     private final ResultService resultService;
 
-
-        @GetMapping( "/test")
+        @RequestMapping("/test")
         public String home(Model model, HttpServletRequest request) {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth.isAuthenticated()) {
-
             final Long examId = (Long) request.getSession().getAttribute("examId");
-
-            final Exam examNew = examService.getExam(1L);
+            final Exam exam = examService.getExam(examId);
 
             final List<Question> questions = questionsService.getQuestionForExam(examId);
 
             final Result result = new Result();
-            result.setExam(examNew);
+            result.setExam(exam);
             result.setUser(getUser());
             result.setStart(Calendar.getInstance().getTime());
             result.setQuestionCount(questions.size());
 
-            final Long resultId = examService.insertExam(result);
+            final Long resultId = resultService.insertResult(result);
 
             model.addAttribute("results", new ExamDto(resultId, examId));
-            model.addAttribute("examName", String.format("Добро пожаловать \"%s\"!", examNew.getName()));
+            model.addAttribute("examName", String.format("Добро пожаловать \"%s\"!", exam.getName()));
             model.addAttribute("questions", questionsMapper.questionsToDto(questions));
 
             request.getSession().setAttribute("examStarted", result.getStart().getTime());
@@ -78,8 +72,9 @@ public class TestingController {
             model.addAttribute("examTime", remaining);
 
             return "test";
+
         } else {
-            return "redirect:/index";
+            return "redirect:/index/theme";
         }
     }
 
@@ -89,19 +84,20 @@ public class TestingController {
         return remaining;
     }
 
-    @GetMapping("/questions/{id}")
+    @RequestMapping(value = "/questions/{id}")
     @ResponseBody
     public List<Question> getQuestionsForExam(@PathVariable("id") Long examId) {
         return questionsService.getQuestionForExam(examId);
     }
 
-    @GetMapping("/answers/{id}")
+    @RequestMapping(value = "/answers/{id}")
     @ResponseBody
     public List<EntryDTO> getAnswersForQuestion(@PathVariable("id") Long questionId) {
         return answerMapper.answersToDTO(answerService.getAnswerForQuestion(questionId));
     }
 
-    @PostMapping ("/test/save")
+
+    @RequestMapping(value = "/test/save", method = RequestMethod.POST)
     public String submitResult(Model model, @Valid @ModelAttribute("results") ExamDto frm,
                                BindingResult result, HttpServletRequest request) {
         if (result.hasErrors()) {
@@ -115,6 +111,7 @@ public class TestingController {
         protocol.setFinish(Calendar.getInstance().getTime());
 
         resultService.calcGrade(protocol, frm.getExamId(), frm.getAnswers());
+
         resultService.updateResult(protocol);
 
         log.info("Submit: {}", protocol);
@@ -122,7 +119,8 @@ public class TestingController {
         return "redirect:/stat/" + protocol.getId();
     }
 
-    @GetMapping( "/stat/{id}")
+//    @GetMapping( "/stat/{id}")
+    @RequestMapping(value = "/stat/{id}", method = RequestMethod.GET)
     public String stat(Model model, @PathVariable("id") Long protocolId) {
         if (protocolId < 1) {
             return "redirect:/test";
@@ -146,7 +144,7 @@ public class TestingController {
 
 
 
-    @GetMapping("/time")
+    @RequestMapping(value = "/time")
     @ResponseBody
     public Integer timer(HttpServletRequest request) {
         return getRemainingTime(request);

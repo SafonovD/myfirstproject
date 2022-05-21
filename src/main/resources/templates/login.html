@@ -24,9 +24,6 @@
         <p class="text-warning">Вы вышли из системы.</p>
     </div>
 
-    <div><h2 th:text="${examName}" th:value="${examName}"></h2></div>
-    <div><h3 th:text="${examDescription}" th:value="${examDescription}"></h3></div>
-
     <form th:action="@{/login}" method="post" href="/login.html" style="max-width: 350px; margin: 0 auto;">
 
         <div class="border border-secondary p-3 rounded">
@@ -44,7 +41,6 @@
                 <input type="checkbox" name="remember-me"/>&nbsp;Запомнить
             </p>
             <p>
-<!--                <input type="hidden" th:name="examId" th:value="${examId}"/>-->
                 <input type="submit" value="Войти" class="btn btn-primary"/>
             </p>
 

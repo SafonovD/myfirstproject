@@ -10,14 +10,14 @@
 <div class="container mt-5">
 
     <div class="starter-template">
-        <h1>Admin page </h1>
-        <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+
+        <h1 th:inline="text" >Hello [[${#httpServletRequest.remoteUser}]]!</h1>
     </div>
-    <div>
+    <div class="container flex-fill">
         <form method="post" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="file" type="" >Загрузка файла csv формата</label>
-                <input type="file" name="file" id="file">
+<!--                <label th:text="${message}"></label>-->
+                <input th:text="${message}" type="file" name="file" id="file">
 
                 <input class="form-control" type="text" name="themename" placeholder="Название темы тесты">
                 <label for="descriptForm">Описание</label>

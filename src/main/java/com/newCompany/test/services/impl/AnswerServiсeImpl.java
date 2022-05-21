@@ -15,7 +15,7 @@ public class AnswerServiсeImpl implements AnswerService {
 
     private final AnswerRepository answerRepository;
 
-    private static Long quest_ID;
+    private Long quest_id;
 
     @Override
     public void insertAnswer(Integer questionId, AnswersDto answersDto) {
@@ -24,13 +24,13 @@ public class AnswerServiсeImpl implements AnswerService {
 
             answer.setName(answersDto.getName());
             answer.setCorrectAnswer(answersDto.isCorrectAnswer());
-            quest_ID = Long.valueOf(questionId);
-            answer.setQuestion_id(quest_ID);
+            quest_id = Long.valueOf(questionId);
+            answer.setQuestion_id(quest_id);
             answerRepository.save(answer);
         } else {
             answer.setName(answersDto.getName());
             answer.setCorrectAnswer(answersDto.isCorrectAnswer());
-            answer.setQuestion_id(quest_ID);
+            answer.setQuestion_id(quest_id);
 
             answerRepository.save(answer);
         }

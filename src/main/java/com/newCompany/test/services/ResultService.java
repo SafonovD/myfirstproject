@@ -11,6 +11,8 @@ public interface ResultService {
 
     Result getResult(Long resultId);
 
+    Long insertResult(Result result);
+
     void calcGrade(Result result, Long examId, List<Long> userAnswers);
 
 

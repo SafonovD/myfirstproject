@@ -7,8 +7,8 @@ import com.newCompany.test.model.Exam;
 import com.newCompany.test.services.AnswerService;
 import com.newCompany.test.services.ExamService;
 import com.newCompany.test.services.QuestionsService;
+import com.newCompany.test.util.CsvMapper;
 import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.tuple.Pair;
@@ -17,9 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -40,29 +38,47 @@ public class MainController {
     private final AnswerService answerService;
     private final QuestionsService questionsService;
     private final ExamService examService;
-    private Collection<QuestionsAndAnswersDto> questionsAndAnswersDtos = null;
+    Collection<QuestionsAndAnswersDto> questionsAndAnswersDtos;
 
     @GetMapping("/index")
-    public String homePage() {
+    public String showIndex(){
         return "index";
     }
 
-    @GetMapping("/login")
-    public String login(Model model, @RequestParam Optional<String> error, HttpServletRequest request) {
+    @RequestMapping(value = "/index/theme", method = RequestMethod.GET)
+    public String homePage(Model model, @RequestParam Optional<String> error, HttpServletRequest request) {
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.isAuthenticated()) {
 
+//        model.addAttribute("theme",examService.getAll());
+
+            final Exam exam = examService.getRandomExam();
+
+            request.getSession().setAttribute("examId", exam.getId());
+
+            model.addAttribute("examName", exam.getName());
+            model.addAttribute("examDescription", exam.getDescription());
+            return "test";
+        }
+        return "/login";
+    }
+
+
+
+    @GetMapping("/login")
+    public String login() {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null || auth instanceof AnonymousAuthenticationToken) {
             return "login";
         }
-
         log.info("AUTH: {} [{}]", auth, auth.isAuthenticated());
 
-        final Exam exam = examService.getRandomExam();
-
-        request.getSession().setAttribute("examId", exam.getId());
-
-        model.addAttribute("examName", exam.getName());
-        model.addAttribute("examDescription", exam.getDescription());
+//        final Exam exam = examService.getRandomExam();
+//
+//        request.getSession().setAttribute("examId", exam.getId());
+//
+//        model.addAttribute("examName", exam.getName());
+//        model.addAttribute("examDescription", exam.getDescription());
 
         return "redirect:/index";
     }
@@ -85,11 +101,7 @@ public class MainController {
             model.addAttribute("status", false);
         } else {
             try (Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
-                CsvToBean<QuestionsAndAnswersDto> csvToBean = new CsvToBeanBuilder(reader)
-                        .withType(QuestionsAndAnswersDto.class)
-                        .withSeparator(';')
-                        .withIgnoreLeadingWhiteSpace(true)
-                        .build();
+                CsvToBean<QuestionsAndAnswersDto> csvToBean = CsvMapper.getCsvToBeanBuild(reader);
 
                 questionsAndAnswersDtos = csvToBean.stream().collect(Collectors.toList());
             }
@@ -110,6 +122,14 @@ public class MainController {
 
         return "admin";
     }
+
+//    private CsvToBean getCsvToBeanBuild(Reader reader) {
+//        return new CsvToBeanBuilder(reader)
+//                .withType(QuestionsAndAnswersDto.class)
+//                .withSeparator(';')
+//                .withIgnoreLeadingWhiteSpace(true)
+//                .build();
+//    }
 
     @GetMapping("/403")
     public String error403() {
