@@ -32,7 +32,6 @@ import java.util.List;
 @Controller
 @Slf4j
 @RequiredArgsConstructor
-
 public class TestingController {
 
     @Value("${exam.time.minutes}")
@@ -49,15 +48,18 @@ public class TestingController {
         @RequestMapping("/test")
         public String home(Model model, HttpServletRequest request) {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
         if (auth.isAuthenticated()) {
+
             final Long examId = (Long) request.getSession().getAttribute("examId");
+
             final Exam exam = examService.getExam(examId);
 
             final List<Question> questions = questionsService.getQuestionForExam(examId);
 
             final Result result = new Result();
-            result.setExam(exam);
-            result.setUser(getUser());
+            result.setExam_id(examId);
+            result.setUser_id(getUser().getId());
             result.setStart(Calendar.getInstance().getTime());
             result.setQuestionCount(questions.size());
 
@@ -68,13 +70,14 @@ public class TestingController {
             model.addAttribute("questions", questionsMapper.questionsToDto(questions));
 
             request.getSession().setAttribute("examStarted", result.getStart().getTime());
+
             final int remaining = getRemainingTime(request);
             model.addAttribute("examTime", remaining);
 
             return "test";
-
         } else {
-            return "redirect:/index/theme";
+
+            return "redirect:/index/test";
         }
     }
 
@@ -97,7 +100,7 @@ public class TestingController {
     }
 
 
-    @RequestMapping(value = "/test/save", method = RequestMethod.POST)
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String submitResult(Model model, @Valid @ModelAttribute("results") ExamDto frm,
                                BindingResult result, HttpServletRequest request) {
         if (result.hasErrors()) {
@@ -121,7 +124,7 @@ public class TestingController {
 
 //    @GetMapping( "/stat/{id}")
     @RequestMapping(value = "/stat/{id}", method = RequestMethod.GET)
-    public String stat(Model model, @PathVariable("id") Long protocolId) {
+    public String stat(@PathVariable("id") Long protocolId, Model model) {
         if (protocolId < 1) {
             return "redirect:/test";
         }

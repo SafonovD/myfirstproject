@@ -20,7 +20,7 @@ public interface QuestionsRepository extends JpaRepository<Question, Long> {
 
     List<Question> findByExam_id(Long examId);
 
-    // Нахождение первого вопроса без ответа на экзамене
+    // Нахождение первого вопроса без ответа тесте
     Question findFirstByExamAndIdNotIn(Exam exam, Set<Integer> ids);
 
     int countByExam(Exam exam);

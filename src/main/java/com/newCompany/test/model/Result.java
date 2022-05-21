@@ -36,14 +36,19 @@ public class Result extends AbstractPersistable<Long> {
     private Integer correctAnswers;
     @Column(name = "grade")
     private Integer grade;
+    @Column(name = "user_id")
+    private Long user_id;
+    @Column(name = "exam_id")
+    private Long exam_id;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id",referencedColumnName = "id", insertable = false, updatable = false)
     @ToString.Exclude
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "exam_id")
+    @JoinColumn(name = "exam_id",referencedColumnName = "id", insertable = false, updatable = false)
     @ToString.Exclude
     private Exam exam;
 

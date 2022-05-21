@@ -1,6 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Главная Страница</title>
 
@@ -11,7 +10,8 @@
 <div th:replace="fragments/header:: header"></div>
 <br><br><br><br><br><br>
 <div class="container mt-5">
-<div><h2> Тема теста: <p th:text="${examName}">Добро пожаловать на тест!</p></h2></div>
+<div class="con"><h2> Тема теста: <label th:text="${examName}">Добро пожаловать на тест!</label></h2>
+    <h5> описание: <label th:text="${examDescription}">описание тест!</label></h5></div>
 <!--Таймер-->
 <input type="hidden" th:id="examTime" th:value="${examTime}">
 <div>Оставшееся время: <span id="tm"></span></div>
@@ -22,17 +22,18 @@
 </div>
 <!--    Вопрос-->
 <div>
-    <h3><p id="question"></p></h3>
+    <h3><p id="question" ></p></h3>
 </div>
 <!--    варианты ответов-->
 <div id="answers"></div>
 <!-- кнопка следующего вопрос -->
 <div><p><input id="next" type="button" value="Следующий вопрос"/></p></div>
-<form th:action="@{/test/save}" th:object="${results}" th:method="post">
+<form th:action="@{/test/save}" th:object="${results}" th:method="post"
+      th:if="${not #lists.isEmpty(results)}">
 
-<!--    <input type="hidden" th:field="*{id}"/>-->
-<!--    <input type="hidden" th:field="*{examId}"/>-->
-<!--    <input type="hidden" id="useranswers" th:field="*{answers}"/>-->
+    <input type="hidden" th:fild="*{id}"/>
+    <input type="hidden" th:fild="*{examId}"/>
+    <input type="hidden" id="useranswers" th:fild="*{answers}"/>
 
     <div><input id="done" type="submit" value="Завершить"/></div>
 </form>
@@ -41,9 +42,9 @@
 
 <script th:inline="javascript">
     var userAnswers = {};
-    <![CDATA[
-    var questions = [[${questions}]] [{'id': 1, 'multiAnswer': false, 'name': 'Вопрос?'}];
-    ]]>
+    /*<![CDATA[*/
+    var questions = [[${questions}]]; /*[{'id': 1, 'multiAnswer': false, 'name': 'Question?'}];*/
+    /*]]>*/
     $(document).ready(function () {
         $("#next").click(nextHandler);
         var q = $("#questions");
@@ -51,7 +52,7 @@
             q.append($("<option />").val(this.id).text(this.name));
         });
 
-        comboHandler(); // on-start
+        comboHandler(); // Старт
         q.change(comboHandler);
 
         function comboHandler() {
@@ -94,14 +95,14 @@
             var elm = $('#questions option:selected');
             var len = $('#questions').children('option').length;
             var i = elm.index();
-            <![CDATA[
-            if (i == (len - 1)) {
+            /*<![CDATA[*/
+            if (i === (len - 1)) {
                 $('#questions option:first-child').attr("selected", "selected");
             } else {
                 $('#questions option:selected').next('option').attr('selected', 'selected');
             }
             $('#questions').change();
-            ]]>
+            /*]]>*/
         }
 
         $("form").submit(function (event) {
@@ -112,14 +113,14 @@
             $("#useranswers").val(ua);
         });
 
-        // таймер
+        // Timer functions
         var countDownTimer = parseInt($('#examTime').val());
 
         function timerFunction() {
             var m = ((countDownTimer / 60) >> 0);
             var s = (countDownTimer % 60);
             $('#tm').text(("00" + m).slice(-2) + ':' + ("00" + s).slice(-2));
-            if (countDownTimer == 0) {
+            if (countDownTimer === 0) {
                 $('#done').click();
             }
             countDownTimer -= 1;
@@ -128,7 +129,6 @@
         setInterval(timerFunction, 1000);
     });
 </script>
-
 <!-- /.container -->
 
 <div th:replace="fragments/footer.html :: footer"></div>
