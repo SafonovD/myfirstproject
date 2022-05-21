@@ -1,0 +1,37 @@
+Question;Answer;CorrectAnswer;MultiAnswer
+Вопрос -1;ответ 1;true;false
+;ответ 2;false;
+;ответ 3;false;
+;ответ 4;false;
+Вопрос-2;ответ 5;false;false
+;ответ 6;false;
+;ответ 7;true;
+;ответ 8;false;
+Вопрос-3;ответ 9;false;false
+;ответ 10;false;
+;ответ 11;false;
+;ответ 12;true;
+Вопрос-4;ответ 13;false;true
+;ответ 14;true;
+;ответ 15;false;
+;ответ 16;true;
+Вопрос-5;ответ 17;false;false
+;ответ 18;true;
+;ответ 19;false;
+;ответ 20;false;
+Вопрос-6;ответ 21;true;false
+;ответ 22;false;
+;ответ 23;false;
+;ответ 24;false;
+Вопрос-7;ответ 25;false;true
+;ответ 26;true;
+;ответ 27;true;
+;ответ 28;true;
+Вопрос-8;ответ 29;false;false
+;ответ 30;false;
+;ответ 31;true;
+;ответ 32;false;
+Вопрос-9;ответ 33;false;false
+;ответ 34;false;
+;ответ 35;false;
+;ответ 36;true;
