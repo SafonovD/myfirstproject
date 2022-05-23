@@ -38,12 +38,11 @@
     <div><input id="done" type="submit" value="Завершить"/></div>
 </form>
 </div>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
 <script th:inline="javascript">
     var userAnswers = {};
     /*<![CDATA[*/
-    var questions = [[${questions}]]; /*[{'id': 1, 'multiAnswer': false, 'name': 'Question?'}];*/
+    var questions =/* [[${questions}]]; */ [{'id': 1, 'multiAnswer': false, 'name': 'Вопрос!!'}];
     /*]]>*/
     $(document).ready(function () {
         $("#next").click(nextHandler);
@@ -96,7 +95,7 @@
             var len = $('#questions').children('option').length;
             var i = elm.index();
             /*<![CDATA[*/
-            if (i === (len - 1)) {
+            if (i == (len - 1)) {
                 $('#questions option:first-child').attr("selected", "selected");
             } else {
                 $('#questions option:selected').next('option').attr('selected', 'selected');
@@ -129,6 +128,7 @@
         setInterval(timerFunction, 1000);
     });
 </script>
+
 <!-- /.container -->
 
 <div th:replace="fragments/footer.html :: footer"></div>
