@@ -37,7 +37,7 @@
                     <li class="nav-item">
                         <a sec:authorize="anonymous" class="navbar-link navbar-brand" href="/registration" th:href="@{/registration}">Регистрация</a>
                     </li>
-                    <li class="nav-item"><a class="navbar-link navbar-brand" th:href="@{/test}">Пройти тест</a></li>
+                    <li class="nav-item"><a class="navbar-link navbar-brand" th:href="@{/theme}">Темы тестов</a></li>
                     <li>
                         <a  sec:authorize="hasAnyRole('ROLE_ADMIN')" class="navbar-link navbar-brand" th:href="@{/user}">Список пользователей</a>
                     </li>

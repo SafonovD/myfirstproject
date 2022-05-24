@@ -39,10 +39,12 @@
 </form>
 </div>
 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 <script th:inline="javascript">
     var userAnswers = {};
     /*<![CDATA[*/
-    var questions =/* [[${questions}]]; */ [{'id': 1, 'multiAnswer': false, 'name': 'Вопрос!!'}];
+    var questions = /*[[${questions}]]*/ [{'id': 1, 'multiAnswer': false, 'name': 'Вопрос?'}];
     /*]]>*/
     $(document).ready(function () {
         $("#next").click(nextHandler);
@@ -119,7 +121,7 @@
             var m = ((countDownTimer / 60) >> 0);
             var s = (countDownTimer % 60);
             $('#tm').text(("00" + m).slice(-2) + ':' + ("00" + s).slice(-2));
-            if (countDownTimer === 0) {
+            if (countDownTimer == 0) {
                 $('#done').click();
             }
             countDownTimer -= 1;

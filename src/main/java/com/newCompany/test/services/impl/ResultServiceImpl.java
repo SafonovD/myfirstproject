@@ -44,12 +44,10 @@ public class ResultServiceImpl implements ResultService {
         log.info("IN findById - exam: {} found by id: {}", result ,resultId);
         return result;
     }
-    @Transactional
+
     public Long insertResult(Result result) {
         final Result p = resultRepository.save(result);
-        resultRepository.flush();
-        return result.getId();
-//        return p.getId();
+        return p.getId();
     }
 
     public void calcGrade(Result result, Long examId, List<Long> userAnswers) {

@@ -1,14 +1,11 @@
 package com.newCompany.test.services.impl;
 
 import com.newCompany.test.model.Exam;
-import com.newCompany.test.model.Result;
 import com.newCompany.test.repositories.ExamRepository;
-import com.newCompany.test.repositories.ResultRepository;
 import com.newCompany.test.services.ExamService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Random;
@@ -19,7 +16,6 @@ import java.util.Random;
 public class ExamServiceImpl implements ExamService {
 
     private final ExamRepository examRepository;
-    private final ResultRepository resultRepository;
 
     public Exam getRandomExam() {
         final int examCount = (int) examRepository.count();

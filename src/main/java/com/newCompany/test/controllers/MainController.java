@@ -46,23 +46,23 @@ public class MainController {
         return "index";
     }
 
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public String homePage(Model model, @RequestParam Optional<String> error, HttpServletRequest request) {
-        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth.isAuthenticated()) {
-
-            final Exam exam = examService.getRandomExam();
-
-            request.getSession().setAttribute("examId", exam.getId());
-//            Long id = (Long) request.getSession().getAttribute("examId");
-
-            model.addAttribute("examName", exam.getName());
-            model.addAttribute("examDescription", exam.getDescription());
-//            model.addAttribute("id",id);
-            return "/test";
-        }
-        return "/login";
-    }
+//    @RequestMapping(value = "/themes", method = RequestMethod.GET)
+//    public String homePage(Model model, @RequestParam Optional<String> error, HttpServletRequest request) {
+//        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//        if (auth.isAuthenticated()) {
+//
+//            final Exam exam = examService.getRandomExam();
+//
+//            request.getSession().setAttribute("examId", exam.getId());
+////            Long id = (Long) request.getSession().getAttribute("examId");
+//
+//            model.addAttribute("examName", exam.getName());
+//            model.addAttribute("examDescription", exam.getDescription());
+////            model.addAttribute("id",id);
+//            return "/test/test";
+//        }
+//        return "/login";
+//    }
 
     @GetMapping("/login")
     public String login() {

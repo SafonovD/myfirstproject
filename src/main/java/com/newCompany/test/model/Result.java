@@ -1,9 +1,6 @@
 package com.newCompany.test.model;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -14,13 +11,15 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "result")
-public class Result extends AbstractPersistable<Long> {
+public class Result {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @CreatedDate
     @Column(name = "start")
     private Date start;

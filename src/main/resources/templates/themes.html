@@ -1,0 +1,37 @@
+
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Список пользователей</title>
+
+    <div th:replace="fragments/header::header-css"></div>
+</head>
+<body>
+
+<div th:replace="fragments/header:: header"></div>
+<br><br><br><br>
+
+<div class="container mt-5" th:if="${not #lists.isEmpty(exam)}">
+    <h2>Список тем для тестирования</h2>
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <th>Тема</th>
+            <th>Описание</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="ex : ${exam}">
+            <td th:text="${ex.name}"></td>
+            <td th:text="${ex.description}"></td>
+            <td><a th:href="@{'/test/'+${ex.id}}" />Начать тестирование</td>
+
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:replace="fragments/footer.html :: footer"></div>
+
+</body>
+</html>

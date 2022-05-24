@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @Slf4j
@@ -45,15 +46,26 @@ public class TestingController {
     private final ExamService examService;
     private final ResultService resultService;
 
-        @RequestMapping("/test")
-        public String home(Model model, HttpServletRequest request) {
+//    @RequestMapping(value = "/theme", method = RequestMethod.GET)
+    @GetMapping("/theme")
+    public String homePage(Model model, @RequestParam Optional<String> error, HttpServletRequest request) {
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.isAuthenticated()) {
+
+            model.addAttribute("exam", examService.getAll());
+
+            return "/themes";
+        }
+        return "/login";
+    }
+
+        @GetMapping("/test/{exam}")
+        public String home(@PathVariable Exam exam, Model model, HttpServletRequest request) {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (auth.isAuthenticated()) {
 
-            final Long examId = (Long) request.getSession().getAttribute("examId");
-
-            final Exam exam = examService.getExam(examId);
+            final Long examId = exam.getId();
 
             final List<Question> questions = questionsService.getQuestionForExam(examId);
 
@@ -77,7 +89,7 @@ public class TestingController {
             return "test";
         } else {
 
-            return "redirect:/index/test";
+            return "redirect:/index";
         }
     }
 
@@ -100,35 +112,37 @@ public class TestingController {
     }
 
 
-    @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String submitResult(Model model, @Valid @ModelAttribute("results") ExamDto frm,
+//    @RequestMapping(value = "/test/save", method = RequestMethod.POST)
+    @PostMapping("/test/save")
+    public String submitResult(@Valid @ModelAttribute("results") ExamDto form, Model model,
                                BindingResult result, HttpServletRequest request) {
         if (result.hasErrors()) {
             // TODO?
         }
-        log.info("Submit: {}", frm);
+        log.info("Submit: {}", form);
 
         request.getSession().removeAttribute("examId");
 
-        final Result protocol = resultService.getResult(frm.getId());
-        protocol.setFinish(Calendar.getInstance().getTime());
+        final Result resultTest = resultService.getResult(form.getId());
 
-        resultService.calcGrade(protocol, frm.getExamId(), frm.getAnswers());
+        resultTest.setFinish(Calendar.getInstance().getTime());
 
-        resultService.updateResult(protocol);
+        resultService.calcGrade(resultTest, form.getExamId(), form.getAnswers());
 
-        log.info("Submit: {}", protocol);
+        resultService.updateResult(resultTest);
 
-        return "redirect:/stat/" + protocol.getId();
+        log.info("Submit: {}", resultTest);
+
+        return "redirect:/stat/" + resultTest.getId();
     }
 
-//    @GetMapping( "/stat/{id}")
-    @RequestMapping(value = "/stat/{id}", method = RequestMethod.GET)
-    public String stat(@PathVariable("id") Long protocolId, Model model) {
-        if (protocolId < 1) {
+//    @RequestMapping(value = "/stat/{id}", method = RequestMethod.GET)
+    @GetMapping( "/stat/{id}")
+    public String stat(@PathVariable("id") Long resultId, Model model) {
+        if (resultId < 1) {
             return "redirect:/test";
         }
-        final Result result = resultService.getResult(protocolId);
+        final Result result = resultService.getResult(resultId);
 
         if (result == null) {
             return "redirect:/test";

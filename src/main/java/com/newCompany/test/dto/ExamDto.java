@@ -13,8 +13,6 @@ public class ExamDto implements Serializable {
 
     private Long id;
     private Long examId;
-//    private String name;
-//    private String description;
 
     private List<Long> answers;
 
