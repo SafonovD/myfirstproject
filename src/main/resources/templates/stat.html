@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Страница пользователя</title>
+    <title>Страница результата</title>
 
     <div th:replace="fragments/header::header-css"></div>
 </head>
@@ -11,21 +11,21 @@
 <br><br><br><br><br><br>
 
 <div class="container mt-5">
-<div><p th:text="${title}">Your Stat for exam!</p></div>
+<div><p th:text="${title}">Ваши результаты!</p></div>
 <hr/>
 <!-- results -->
 <div>
     <table>
-        <tr><td>Start:</td><td th:text="${start}"></td></tr>
-        <tr><td>Finish:</td><td th:text="${finish}"></td></tr>
-        <tr><td>Questions:</td><td th:text="${questionCount}"></td></tr>
-        <tr><td>Grade:</td><td th:text="${grade}"></td></tr>
-        <tr><td>Max Grade:</td><td th:text="${maxGrade}"></td></tr>
+        <tr><td>Налоло:</td><td th:text="${start}"></td></tr>
+        <tr><td>Окончание:</td><td th:text="${finish}"></td></tr>
+        <tr><td>Кол-во вопросов:</td><td th:text="${questionCount}"></td></tr>
+        <tr><td>Оценка:</td><td th:text="${grade}"></td></tr>
+        <tr><td>Максимальная оценка:</td><td th:text="${maxGrade}"></td></tr>
     </table>
 </div>
 <form th:action="@{/logout}" th:method="post">
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-    <input type="submit" value="Exit"/>
+<!--    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
+    <input type="submit" value="Выход"/>
 </form>
 
 </div>

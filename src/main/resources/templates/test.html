@@ -28,6 +28,7 @@
 <div id="answers"></div>
 <!-- кнопка следующего вопрос -->
 <div><p><input id="next" type="button" value="Следующий вопрос"/></p></div>
+
 <form th:action="@{/test/save}" th:object="${results}" th:method="post"
       th:if="${not #lists.isEmpty(results)}">
 
@@ -107,8 +108,8 @@
         }
 
         $("form").submit(function (event) {
-            var ua = [];
-            for (var k in userAnswers) {
+            let ua = [];
+            for (const k in userAnswers) {
                 if (userAnswers[k]) ua.push(k);
             }
             $("#useranswers").val(ua);

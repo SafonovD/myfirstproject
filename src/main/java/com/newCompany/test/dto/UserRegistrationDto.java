@@ -15,7 +15,6 @@ public class UserRegistrationDto {
 
     private Long id;
     @NotNull
-    @Size(min = 4, max = 32)
     private String username;
     @NotNull
     private String firstName;
@@ -24,7 +23,6 @@ public class UserRegistrationDto {
     @NotNull
     private String email;
     @NotNull
-    @Size(min = 8, max = 32)
     private String password;
     private String confirmPassword;
 

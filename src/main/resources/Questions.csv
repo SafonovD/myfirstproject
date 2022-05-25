@@ -1,0 +1,182 @@
+Question;Answer;CorrectAnswer;MultiAnswer
+Укажите корректную форму метода и аннотации для получения параметра из GET-запроса вида: /user/123, где 123 – параметр ID пользователя:;@RequestMapping(value="/user/{user_id}", method=RequestMethod.GET) public<br>String home(Model userModel, @PathVariable(value="user_id") Integer id){ };true;false
+;@RequestMapping(value="/{user_id}", method=RequestMethod.GET) public String <br>home(Model userModel, @PathVariable(value="user_id") Integer id){ };false;
+;@RequestMapping(value="/{user_id}", method=RequestMethod.GET) public String<br>home(Model userModel) Integer id){ };false;
+;@RequestMapping(value="/user_id", method=RequestMethod.GET) public String<br>home(Model userModel, @PathVariable(value="user_id") Integer id){ };false;
+Что не входит в JPA?;JPQL;false;false
+;EntityManager;false;
+;DAO;true;
+;JTA;false;
+В какой метод формирования запросов в JPQL нужно передавать строку в виде SQL-запроса:;createSqlQuery;false;false
+;createQuery;false;
+;createNamedQuery;false;
+;createNativeQuery;true;
+Что предоставляет EnityManager?;Фабрику для создания объектов Hibernate;false;false
+;Реализацию CRUD-операций;true;
+;Возможность использования аннотации @Entity;false;
+;Интерфейс для создания таблиц в БД;true;
+Что содержат jsp-файлы?;Файл с Java-кодом, отвечающий за конфигурацию сервлетов;false;false
+;Файл с Java-кодом, на основании которого генерируется HTML-страница;true;
+;Файл с Java-кодом, отвечающий за обработку входящих запросов;false;
+;Файл конфигурации модуля JSP;false;
+Для каких типов связей между таблицами потребуется аннотация @JoinTable?(возможно несколько вариантов);@OneToMany;true;true
+;@OneToOne;false;
+;ни к одному;false;
+;@ManyToMany;true;
+Какой тип выборки подтягивает данные из связанных сущностей только при обращении в соответствующему геттеру?;EAGER;false;false
+;DEMAND;false;
+;One-To-Many;false;
+;LAZY;true;
+Что такое контекст в Spring?;Набор параметров, указываемых в ключах при запуске приложения;false;false
+;Основной интерфейс, предоставляющий информацию о конфигурации;false;
+;Специальный контейнер для реализации концепции инверсии управления и внедрения зависимостей, управляющий созданием, настройкой и сборкой бинов;true;
+;Один из способов конфигурирования приложения;false;
+Какой атрибут аннотации связи (например, @OneToMany) указывает тип выборки связанных данных?;reference;false;false
+;connect;false;
+;fetch;true;
+;link;false;
+Какая аннотация включает защиту на уровне методов в Spring Security?;MethodSecurity;false;false
+;EnableMethodSecurity;false;
+;GlobalMethodSecurity;false;
+;EnableGlobalMethodSecurity;true;
+Для какого типа полей применима аннотация @GeneratedValue?;Поля уникального идентификатора;true;false
+;Поля, входящие в индекс Unique;false;
+;Поля, входящие в индекс;false;
+;Поля, значения которых собираются на основании данных в сущности;false;
+Какой параметр нужно передать аннотации Scope для того, чтобы каждый раз получать новый экземпляр Bean-а?;Scope(“bean”);false;false
+;Scope(“prototype”);true;
+;Scope(“singleton”);false;
+;Scope(“new”);false;
+Spring поддерживает спецификацию стандарта JSR-250. Что это означает в отношении жизненного цикла бинов?;Возможность реализовывать внедрение зависимости через @Autowired;false;false
+;Есть возможность управлять жизненным циклом бина при помощи аннотаций<br>@PostConstruct и @PreDestroy;true;
+;Есть возможность управлять жизненным циклом бина при помощи XML-<br>конфигурации init-method и destruct-method;false;
+;JSR-250 неактуален для Spring;false;
+Какая аннотация позволяет указать компилятору, что класс является сущностью в БД?;@Hibernate;false;false
+;@Table;false;
+;@Entity;true;
+;@ORM;false;
+Какой метод создаёт транзакцию в EntityManager?;getTransaction;false;false
+;beginTransaction;false;
+;begin;true;
+;startTransaction;true;
+Укажите arifactId родительского pom-файла при построении Spring Boot проекта;spring-boot;false;false
+;pring-boot-starter;false;
+;pring-boot-starter-web;false;
+;spring-boot-starter-parent;true;
+Какой области видимости нет в Spring?;Context;true;false
+;GlobalSession;false;
+;Singleton;false;
+;Session;false;
+От какого интерфейса должны наследоваться интерфейсы-репозитории при использовании Spring Data JPA?;JpaData;false;false
+;SpringDataJpa;false;
+;Jpa;false;
+;JpaRepository;true;
+Какой класс является базовым для создания класса настройки защиты в Spring Security?;AbstractWebApplicationInitializer;false;false
+;AbstractSpringSecurityWebApplicationInitializer;false;
+;AbstractSecurityApplicationInitializer;false;
+;AbstractSecurityWebApplicationInitializer;true;
+Необходимо спроектировать новостную ленту, в которой будут такие сущности как: статья, теги к статье, комментарии к статье, авторы комментариев. Сколько классов @Entity нужно создать с учетом того, что у одной статьи может быть много тегов и комментариев, но у комментария есть только один автор?;Три;false;false
+;Шесть;false;
+;Пять;false;
+;Четыре;true;
+Какой сервлет в Spring Boot отвечает за адресацию запросов пользователя контроллеру?;RouterServlet;false;false
+;ApplicationServlet;false;
+;SpringServlet;false;
+;DispatcherServlet;true;
+Какие типы конфигурации поддерживает Spring? (несколько вариантов);Аннотации;true;true
+;JavaConfig;true;
+;XML;true;
+;JSON;false;
+Какой интерфейс используется для контекста приложения?;AnnotationConfigApplicationContext;false;false
+;SpringApplicationContext;false;
+;ContextApplicationSpring;false;
+;ApplicationContext;true;
+Что включает в себя Модель в MVC-приложении?;сущности вызова методов сервисного уровня;false;false
+;сущности доступа и манипуляции данными;true;
+;сущности вывода данных для пользователя;false;
+;сущности инициализации приложения;false;
+Что должны содержать все сущности Hibernate? (возможно несколько вариантов);Конструктор по умолчанию;true;true
+;Setter;true;
+;метод инициализации;false;
+;Getter;true;
+Какой паттерн реализуют бины в Spring при их создании без дополнительных параметров?;Decorator;false;false
+;Façade;false;
+;SingletonPost;true;
+;Abstract Factory;false;
+Какая запись в XML-конфигурации позволить создать bean-объект?;<bean class=”tech.test.ConcreteBean”>someBean<bean/>;false;false
+;<bean class=”tech.test.ConcreteBean” id=”someBean”/>;true;
+;<bean name=”someBean” path=”tech.test.ConcreteBean”/>;false;
+;<bean id=”someBean” path=”tech.test.ConcreteBean” />;true;
+Какая аннотация в конфигурационном классе позволяет указать пакет, содержащий Spring бины?;@Import;false;false
+;@ComponentScan;true;
+;@Controller;false;
+;@ControllerScan;false;
+Какая аннотация позволяет контролировать доступ к методу различным типам пользователей при помощи Spring Security?;@PreAuth;false;false
+;@PreAuthorize;true;
+;@SecureMethod;false;
+;@Autorize;true;
+Какого способа внедрения зависимости не существует?;Внедерене через обертку;true;false
+;Внедрение через конструктор;false;
+;Внедрение через поля;false;
+;Внедрение через сеттеры;false;
+Какие значения могут принимать атрибут strategy у аннотации @GeneratedValue? (возможно несколько вариантов);GenerationType.SEQUENCE;true;true
+;GenerationType.IDENTITY;true;
+;GenerationType.INDEX;false;
+;GenerationType.AUTOINCREMENT;false;
+Какая директория используется по умолчанию для хранения html-файлов при использовании Thymeleaf?;src;false;false
+;META-INF;false;
+;resources;false;
+;resources/templates;true;
+В каком порядке происходят указанные ниже действия при создании бина?<br>1. Создание бинов через BeanFactory<br>2. Настройка объектов BeanDefinition<br>3. Настройка бинов<br>4. Создание объектов BeanDefinition;1 2 3 4;false;false
+;4 3 1 2;false;
+;4 3 2 1;false;
+;4 2 1 3;true;
+Какой модуль является основным и необходимым для всех приложений Spring?;spring-module;false;false
+;spring-core;true;
+;spring-context;false;
+;spring-framework;true;
+Где используется контекст приложения в MVC?;При деплое;true;false
+;В контроллере;false;
+;В представлении;false;
+;В модели;true;
+Какой уровень защиты не предоставляет Spring Security?;Уровень представлений;false;false
+;Уровень методов;false;
+;Уровень апплета;true;
+;Уровень URL-запросов;false;
+Как реализуется настройка приложения через JavaConfig?;Создается класс для конфигурирования с аннотацией @Configuration;true;false
+;Все параметры конфигурации указываются в ключах запуска приложения;false;
+;Создается класс для конфигурирования;false;
+;Создается класс для конфигурирования с аннотацией @Bean;false;
+Какой аннотацией маркируется уникальный идентификатор сущности для Hibernate?;@Index;false;false
+;@Id;true;
+;@Unique;false;
+;@Identifier;false;
+За что отвечает Thymeleaf?;Генерация сервлетов;false;false
+;Генерация HTML-кода из JSP;false;
+;Обработка URL-запросов и сопоставление им JSP-файлов;false;
+;Шаблонизация HTML-страниц;true;
+Как осуществить внедрение некоего значения property из настройки в поле Bean-а?;@Property;false;false
+;@Value(“${property}”);true;
+;@Value($.property);false;
+;@Value(property);false;
+Какая аннотация отвечает за внедрение объектов?;Component;false;false
+;Bean;false;
+;Autowired;true;
+;Injection;true;
+Альтернативой какой концепции Java является Spring Framework?;JSP;false;false
+;JSA;false;
+;JEE;false;
+;EJB;true;
+Какой стартер позволяет работать с Spring Data JPA?;spring-boot-starter-hibernate;false;false
+;spring-boot-starter-data-jpa;true;
+;spring-boot-starter-data;false;
+;spring-boot-starter-orm;false;
+Как Spring Boot определяет к какому методу класса-контроллера нужно обратиться при запросе от пользователя?;При помощи контекста приложения;false;false
+;При помощи аннотации @Controller;false;
+;При помощи описанной в DispatcherServlet логики;false;
+;При помощи аннотации @RequestMapping;true;
+Каким образом Spring Boot определяет корневой пакет, в котором необходимо искать бины, если не указана аннотация @ComponentScan?;орнем является папка src/main/java;false;false
+;Корнем является пакет, в котором лежит класс, помечанной аннотацией @SpringBootApplication;true;
+;Корнем является самый первый пакет в папке src/main/java;false;
+;Если аннотация @ComponentScan не указана, то при запуске приложение выдаст ошибку;false;
+

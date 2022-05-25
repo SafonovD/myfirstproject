@@ -15,6 +15,7 @@ public class CsvMapper {
                 .withType(QuestionsAndAnswersDto.class)
                 .withSeparator(';')
                 .withIgnoreLeadingWhiteSpace(true)
+                .withThrowExceptions(false)
                 .build();
     }
 }

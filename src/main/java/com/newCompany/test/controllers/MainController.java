@@ -92,8 +92,8 @@ public class MainController {
         final Exam examName = examService.save(examen);
 
         if (file != null) {
-//            model.addAttribute("message", "Выберите CSV file для загрузки.");
-//            model.addAttribute("status", false);
+            model.addAttribute("message", "Выберите CSV file для загрузки.");
+            model.addAttribute("status", false);
             try (Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
                 CsvToBean<QuestionsAndAnswersDto> csvToBean = CsvMapper.getCsvToBeanBuild(reader);
 

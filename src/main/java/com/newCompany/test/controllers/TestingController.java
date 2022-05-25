@@ -77,7 +77,8 @@ public class TestingController {
 
             final Long resultId = resultService.insertResult(result);
 
-            model.addAttribute("results", new ExamDto(resultId, examId));
+            final ExamDto attributeValueResult = new ExamDto(resultId, examId);
+            model.addAttribute("results", attributeValueResult);
             model.addAttribute("examName", String.format("Добро пожаловать \"%s\"!", exam.getName()));
             model.addAttribute("questions", questionsMapper.questionsToDto(questions));
 
@@ -114,20 +115,20 @@ public class TestingController {
 
 //    @RequestMapping(value = "/test/save", method = RequestMethod.POST)
     @PostMapping("/test/save")
-    public String submitResult(@Valid @ModelAttribute("results") ExamDto form, Model model,
+    public String submitResult(@Valid @ModelAttribute("results") ExamDto examDto, Model model,
                                BindingResult result, HttpServletRequest request) {
         if (result.hasErrors()) {
             // TODO?
         }
-        log.info("Submit: {}", form);
+        log.info("Submit: {}", examDto);
 
         request.getSession().removeAttribute("examId");
 
-        final Result resultTest = resultService.getResult(form.getId());
+        final Result resultTest = resultService.getResult(examDto.getId());
 
         resultTest.setFinish(Calendar.getInstance().getTime());
 
-        resultService.calcGrade(resultTest, form.getExamId(), form.getAnswers());
+        resultService.calcGrade(resultTest, examDto.getExamId(), examDto.getAnswers());
 
         resultService.updateResult(resultTest);
 
