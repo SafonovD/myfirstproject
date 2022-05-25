@@ -9,35 +9,46 @@
 
 <div th:replace="fragments/header:: header"></div>
 <br><br><br><br><br><br>
+
 <div class="container mt-5">
-<div class="con"><h2> Тема теста: <label th:text="${examName}">Добро пожаловать на тест!</label></h2>
-    <h5> описание: <label th:text="${examDescription}">описание тест!</label></h5></div>
-<!--Таймер-->
-<input type="hidden" th:id="examTime" th:value="${examTime}">
-<div>Оставшееся время: <span id="tm"></span></div>
-<!--    Вопросы-->
-<div>
-    <select id="questions" size="1"></select>
-    <label for="questions">Выберите вопрос</label>
-</div>
-<!--    Вопрос-->
-<div>
-    <h3><p id="question" ></p></h3>
-</div>
-<!--    варианты ответов-->
-<div id="answers"></div>
-<!-- кнопка следующего вопрос -->
-<div><p><input id="next" type="button" value="Следующий вопрос"/></p></div>
 
-<form th:action="@{/test/save}" th:object="${results}" th:method="post"
-      th:if="${not #lists.isEmpty(results)}">
+    <div class="con"><h3><label th:text="${examName}">Добро пожаловать на тест!</label></h3>
 
-    <input type="hidden" th:fild="*{id}"/>
-    <input type="hidden" th:fild="*{examId}"/>
-    <input type="hidden" id="useranswers" th:fild="*{answers}"/>
 
-    <div><input id="done" type="submit" value="Завершить"/></div>
-</form>
+            <div class="form-group">
+                <!--Таймер-->
+                <input type="hidden" th:id="examTime" th:value="${examTime}">
+                <div>Оставшееся время: <span id="tm"></span></div>
+            </div>
+            <!--    Вопросы-->
+            <div class="form-group col-xs-8">
+                <label for="questions">Выберите вопрос</label>
+                <select class="form-control" id="questions" size="1"></select>
+            </div>
+            <div class="form-group col-sm-10 ">
+                <!--    Вопрос-->
+                <div class="form-group"><p id="question"></p></div>
+                <!--    варианты ответов-->
+                <div class="form-check" id="answers"></div>
+            </div>
+
+        <!-- кнопка следующего вопрос и завершить и сохранить-->
+
+            <div class="form-group col-xs-8">
+                <input class="btn btn-primary" id="next" type="button" value="Следующий вопрос"/>
+
+                <form id="forma" th:action="@{/test/save}" th:object="${results}" th:method="post"
+                      th:if="${not #lists.isEmpty(results)}">
+
+                    <input type="hidden" th:fild="*{id}"/>
+                    <input type="hidden" th:fild="*{examId}"/>
+                    <input type="hidden" id="useranswers" th:fild="*{answers}"/>
+
+                    <input class="btn btn-danger form-group" id="done" type="submit" value="Завершить"/>
+                </form>
+            </div>
+
+    </div>
 </div>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -75,7 +86,7 @@
                 success: function (data, status) {
                     var elmType = isMulti ? "checkbox" : "radio";
                     $.each(data, function (i, v) {
-                        var btn = $("<input />", {type: elmType, name: 'answer', value: v.id, id: v.id });
+                        var btn = $("<input />", {type: elmType, name: 'answer', value: v.id, id: v.id});
                         if (userAnswers[v.id]) {
                             btn.attr("checked", true);
                         }
@@ -88,7 +99,7 @@
             });
         }
 
-        // handle answer button - store result and go to next question
+        // кнопка обработки ответа - сохранить результат и перейти к следующему вопросу
         function nextHandler() {
             var answers = $('#answers').children('input');
             $.each(answers, function (i, elm) {
@@ -115,7 +126,7 @@
             $("#useranswers").val(ua);
         });
 
-        // Timer functions
+        // Таймер времени
         var countDownTimer = parseInt($('#examTime').val());
 
         function timerFunction() {
