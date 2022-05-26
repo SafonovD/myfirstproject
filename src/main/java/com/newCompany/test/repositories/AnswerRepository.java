@@ -16,8 +16,7 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
 
     List<Answer> findByQuestion_id(Long questionId);
 
-    List<Answer> findByQuestionExam_idAndCorrectAnswer(Long examId, Boolean isCorrect);
-
+    List<Answer> findByQuestionExamIdAndCorrectAnswer(Long examId, Boolean isCorrect);
 
 
 }

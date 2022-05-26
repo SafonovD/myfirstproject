@@ -1,6 +1,5 @@
 package com.newCompany.test.model;
 
-import liquibase.pro.packaged.I;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

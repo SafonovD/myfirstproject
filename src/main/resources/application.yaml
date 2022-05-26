@@ -13,8 +13,8 @@ spring:
     change-log: 'classpath:db/migrations/changeLog.xml'
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/lexed?serverTimezone=UTC
-    username: lexed
+    url: jdbc:postgresql://localhost:5433/mydb?serverTimezone=UTC
+    username: mydb
     password: postgres
 
   thymeleaf:

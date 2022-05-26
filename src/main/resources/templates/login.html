@@ -1,56 +1,61 @@
 
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Страница пользователя</title>
+    <title>Страница Авторизации</title>
 
-    <div th:replace="fragments/header::header-css"></div>
+    <div th:replace="fragments/header :: header-css"></div>
 </head>
 <body>
 
-<div th:replace="fragments/header:: header"></div>
-
-<br><br><br><br><br><br>
+<div th:replace="fragments/header :: header"></div>
+<!-- container body -->
 <div class="container-fluid text-center">
-    <div>
-        <img class="img-fluid" th:src="@{/images/logo.phg}"/>
-    </div>
-
-    <div th:if="${param.error}">
-        <p class="text-danger">Ошибка</p>
-    </div>
-
-    <div th:if="${param.logout}">
-        <p class="text-warning">Вы вышли из системы.</p>
-    </div>
-
-    <form th:action="@{/login}" method="post" href="/login.html" style="max-width: 350px; margin: 0 auto;">
-
-        <div class="border border-secondary p-3 rounded">
-            <p>
-            <h1>Панель авторизации</h1></p>
-            <p>
-                <input type="text" id="username" name="username" class="form-control input-lg" placeholder="Имя"
-                       required="true" autofocus="true"/>
-            </p>
-            <p>
-                <input type="password" id="password" name="password" class="form-control input-lg" placeholder="Пароль"
-                       required="true"/>
-            </p>
-            <p>
-                <input type="checkbox" name="remember-me"/>&nbsp;Запомнить
-            </p>
-            <p>
-                <input type="submit" value="Войти" class="btn btn-primary"/>
-            </p>
-
+    <div class="row content">
+        <div class="col-sm-2 sidenav">
+            <p><a sec:authorize="hasAnyRole('ROLE_ADMIN')" th:href="@{/user}">Список пользователей</a></p>
+            <p><a sec:authorize="hasAnyRole('ROLE_ADMIN')" th:href="@{/admin}">Загрузка тестов</a></p>
+            <p><a th:href="@{/theme}">Темы тестирования</a></p>
         </div>
-    </form>
+        <div class="col-sm-8 text-left">
+
+            <div th:if="${param.error}">
+                <p class="text-danger">Ошибка</p>
+            </div>
+            <div th:if="${param.logout}">
+                <p class="text-warning">Вы вышли из системы.</p>
+            </div>
+
+            <form th:action="@{/login}" method="post" href="/login.html" style="max-width: 350px; margin: 0 auto;" >
+
+                <div class="border border-secondary p-3 rounded">
+                    <p>
+                    <h1>Панель авторизации</h1></p>
+                    <p>
+                        <input type="text" id="username" name="username" class="form-control input-lg" placeholder="Имя"
+                               required="true" autofocus="true"/>
+                    </p>
+                    <p>
+                        <input type="password" id="password" name="password" class="form-control input-lg" placeholder="Пароль"
+                               required="true"/>
+                    </p>
+                    <p><input type="checkbox" name="remember-me"/>&nbsp;Запомнить</p>
+                    <p><input type="submit" value="Войти" class="btn btn-primary"/></p>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-2 sidenav">
+            <div class="well">
+                <p>Рекламный блок</p>
+            </div>
+            <div class="well">
+                <p>Рекламный блок</p>
+            </div>
+        </div>
+    </div>
 </div>
-
-
-<div th:replace="fragments/footer.html :: footer"></div>
-
-
+<!-- /.container -->
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

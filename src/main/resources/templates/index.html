@@ -1,32 +1,50 @@
-
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>Главная Страница</title>
 
-    <div th:replace="fragments/header::header-css"></div>
+    <div th:replace="fragments/header :: header-css"></div>
 </head>
 <body>
 
-<div th:replace="fragments/header:: header"></div>
-<br><br><br><br><br><br>
-
-<div class="container mt-5">
-    <div class="starter-template">
-
-        <h1 th:inline="text">Привет [[${#httpServletRequest.remoteUser}]]! </h1>
-<div>
-   <h2><a th:href="@{/theme}">Выбрать тему для тестирования</a></h2>
-</div>
-
+<div th:replace="fragments/header :: header"></div>
+<!-- container body -->
+<div class="container-fluid text-center">
+    <div class="row content">
+        <div class="col-sm-2 sidenav">
+            <p><a sec:authorize="hasAnyRole('ROLE_ADMIN')" th:href="@{/user}">Список пользователей</a></p>
+            <p><a sec:authorize="hasAnyRole('ROLE_ADMIN')" th:href="@{/admin}">Загрузка тестов</a></p>
+            <p><a th:href="@{/theme}">Темы тестирования</a></p>
+        </div>
+        <div class="col-sm-8 text-left">
+            <div class="starter-template">
+                <h1 th:inline="text" >Привет - [[${#httpServletRequest.remoteUser}]]!</h1>
+            </div>
+            <p>Текст текст Текст текст Текст текст Текст текст Текст текст Текст текст Текст текст
+                Текст текст Текст текст Текст текст Текст текст Текст текст Текст текст Текст текст
+                Текст текстТекст текст Текст текст Текст текстТекст текстТекст текстТекст текстТекст текст
+                Текст текстТекст текстТекст текстТекст текстТекст текстТекст текстТекст текстТекст текст
+                Текст текстТекст текстТекст текстТекст текстТекст текстТекст текстТекст текстТекст текст
+                Текст текстТекст текстТекст текстТекст текстТекст текстТекст текстТекст текстТекст текст
+                Текст текстТекст текстТекст текстТекст текстТекст текстТекст текстТекст текстТекст текст
+            </p>
+            <hr>
+            <hr>
+            <h3>Хочешь пройти тест ?</h3>
+            <p>Выбери тему - <a th:href="@{/theme}">Темы тестирования</a></p>
+        </div>
+        <div class="col-sm-2 sidenav">
+            <div class="well">
+                <p>Рекламный блок</p>
+            </div>
+            <div class="well">
+                <p>Рекламный блок</p>
+            </div>
+        </div>
     </div>
-
 </div>
-
 <!-- /.container -->
-
-<div th:replace="fragments/footer.html :: footer"></div>
-
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

@@ -63,7 +63,7 @@ public class QuestionsServiceImpl implements QuestionsService {
     public Question getNextQuestion(Exam exam, Set<Integer> ids) {
         final Set<Integer> identificators = new HashSet<>(ids);
         if (identificators.size() == 0) {
-            identificators.add(0); // избегаем null
+            identificators.add(0); //
         }
         return questionsRepository.findFirstByExamAndIdNotIn(exam, identificators);
     }

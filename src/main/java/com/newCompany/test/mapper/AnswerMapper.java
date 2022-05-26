@@ -2,9 +2,7 @@ package com.newCompany.test.mapper;
 
 import com.newCompany.test.dto.AnswersDto;
 import com.newCompany.test.dto.EntryDTO;
-import com.newCompany.test.dto.QuestionDto;
 import com.newCompany.test.model.Answer;
-import com.newCompany.test.model.Question;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

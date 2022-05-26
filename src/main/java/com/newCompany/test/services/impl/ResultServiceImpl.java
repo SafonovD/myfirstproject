@@ -52,12 +52,12 @@ public class ResultServiceImpl implements ResultService {
 
     public void calcGrade(Result result, Long examId, List<Long> userAnswers) {
         if (result == null || userAnswers == null) {
-            throw new IllegalArgumentException("Invalid parameters on GRADE call");
+            throw new IllegalArgumentException("Invalid parameters on GRADE call" /* Не правильные параметры оценки!*/);
         }
 
-        final List<Answer> correctAnswers = answerRepository.findByQuestionExam_idAndCorrectAnswer(examId, true);
+        final List<Answer> correctAnswers = answerRepository.findByQuestionExamIdAndCorrectAnswer(examId, true);
         if (correctAnswers.size() == 0) {
-            throw new IllegalArgumentException("You must specify correct answers!");
+            throw new IllegalArgumentException("You must specify correct answers!" /* Вы должны указать правильные ответы!*/);
         }
 
         final float step = (float) (MAX_GRADE / correctAnswers.size());

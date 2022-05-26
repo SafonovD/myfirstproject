@@ -4,6 +4,12 @@ h1{
 h2{
     color: #ff171c;
 }
-footer{
-    margin-top:60px;
+footer {
+    background-color: #555;
+    color: #8d8a8a;
+    padding: 15px;
+}
+.navbar {
+    margin-bottom: 0;
+    border-radius: 0;
 }

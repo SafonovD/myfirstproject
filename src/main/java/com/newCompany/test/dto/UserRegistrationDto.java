@@ -4,9 +4,9 @@ package com.newCompany.test.dto;
 import com.newCompany.test.model.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.NotEmpty;
 
 
 @Data
@@ -14,16 +14,21 @@ import javax.validation.constraints.Size;
 public class UserRegistrationDto {
 
     private Long id;
-    @NotNull
+
+    @Length(min = 4, message = "*Ваше имя пользователя должно содержать не менее 5 символов")
+    @NotEmpty(message = "*Пожалуйста, укажите имя пользователя")
     private String username;
-    @NotNull
+    @NotEmpty(message = "*Пожалуйста, укажите имя")
     private String firstName;
-    @NotNull
+    @NotEmpty(message = "*Пожалуйста, укажите Фамилию")
     private String lastName;
-    @NotNull
+    @NotEmpty(message = "*Пожалуйста, укажите EMAIL")
     private String email;
-    @NotNull
+    @Length(min = 8, message = "*Пароль должен быть более 8 символов.")
+    @NotEmpty(message = "*Пожалуйста, укажите пароль")
     private String password;
+    @Length(min = 8, message = "*Пароль должен быть более 8 символов.")
+    @NotEmpty(message = "*Пожалуйста, укажите пароль")
     private String confirmPassword;
 
     public User toUser() {

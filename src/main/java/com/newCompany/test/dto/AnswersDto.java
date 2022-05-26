@@ -1,6 +1,5 @@
 package com.newCompany.test.dto;
 
-import com.newCompany.test.model.Answer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

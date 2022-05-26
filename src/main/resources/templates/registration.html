@@ -1,64 +1,85 @@
-
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Страница пользователя</title>
+    <title>Страница Регистрации</title>
 
-    <div th:replace="fragments/header::header-css"></div>
+    <div th:replace="fragments/header :: header-css"></div>
 </head>
 <body>
 
-<div th:replace="fragments/header:: header"></div>
-<br><br><br><br><br><br>
+<div th:replace="fragments/header :: header"></div>
+<!-- container body -->
 <div class="container-fluid text-center">
-    <form th:action="@{/registration}" method="post" th:Object="${userDto}" style="max-width: 350px; margin: 0 auto;" th:modelA>
-
-        <div class="border border-secondary p-3 rounded">
-            <p><h2>Форма Регистрации</h2></p>
-
-            <div class="form-group">
-                <input id="username" class="form-control" th:field="${userDto.username}"
-                       required autofocus="autofocus"  placeholder="Login" />
-<!--                <p th:if="${#fields.hasErrors('username')}" th:errors="${userDto.username}"></p>-->
-            </div>
-            <div class="form-group">
-                <input id="firstName" class="form-control" th:field="${userDto.firstName}"
-                       required autofocus="autofocus"  placeholder="Имя"/>
-<!--                <p th:if="${#fields.hasErrors('firstName')}" th:errors="${userDto.firstName}"></p>-->
-
-            </div>
-            <div class="form-group">
-                <input id="lastName" class="form-control" th:field="${userDto.lastName}"
-                       required autofocus="autofocus"  placeholder="Фамилия" />
-<!--                <p th:if="${#fields.hasErrors('lastName')}" th:errors="${userDto.lastName}"></p>-->
-            </div>
-            <div class="form-group">
-                <input type="email" id="email" class="form-control" th:field="${userDto.email}"
-                       required autofocus="autofocus"  placeholder="Email" />
-<!--                <p th:if="${#fields.hasErrors('email')}" th:errors="${userDto.email}"></p>-->
-            </div>
-            <div class="form-group">
-                <input type="password" id="password" class="form-control" th:field="${userDto.password}"
-                       required autofocus="autofocus"  placeholder="Пароль" />
-            </div>
-            <div class="form-group">
-                <input type="password" id="confirmPassword" class="form-control" th:field="${userDto.confirmPassword}"
-                       required autofocus="autofocus"  placeholder="Пароль" />
-<!--                <p th:if="${#fields.hasErrors('confirmPassword')}" th:errors="${userDto.confirmPassword}"></p>-->
-            </div>
-            <p>
-
-                <input type="submit" value="Регистрация" class="btn btn-primary" />
-                <span> Если зарегистрированы </span> <a href="/" th:href="@{/login}"> Войти </a>
-            </p>
+    <div class="row content">
+        <div class="col-sm-2 sidenav">
+            <p><a sec:authorize="hasAnyRole('ROLE_ADMIN')" th:href="@{/user}">Список пользователей</a></p>
+            <p><a sec:authorize="hasAnyRole('ROLE_ADMIN')" th:href="@{/admin}">Загрузка тестов</a></p>
+            <p><a th:href="@{/theme}">Темы тестирования</a></p>
         </div>
-    </form>
+        <div class="col-sm-8 text-left">
+            <div class="container-fluid text-center">
+                <form th:action="@{/registration}" method="post" th:Object="${userDto}" style="max-width: 350px; margin: 0 auto;" th:modelA>
 
+                    <div class="border border-secondary p-3 rounded">
+                        <p><h2>Форма Регистрации</h2></p>
+
+                        <div class="form-group">
+                            <input id="username" class="form-control" th:field="${userDto.username}"
+                                   required autofocus="autofocus"  placeholder="Login" />
+                            <label th:if="${#fields.hasErrors('username')}" th:errors="*{username}"
+                                   class="validation-message"></label>
+                        </div>
+                        <div class="form-group">
+                            <input id="firstName" class="form-control" th:field="${userDto.firstName}"
+                                   required autofocus="autofocus"  placeholder="Имя"/>
+                            <label th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
+                                   class="validation-message"></label>
+
+                        </div>
+                        <div class="form-group">
+                            <input id="lastName" class="form-control" th:field="${userDto.lastName}"
+                                   required autofocus="autofocus"  placeholder="Фамилия" />
+                            <label th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
+                                   class="validation-message"></label>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" class="form-control" th:field="${userDto.email}"
+                                   required autofocus="autofocus"  placeholder="Email" />
+                            <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+                                   class="validation-message"></label>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="password" class="form-control" th:field="${userDto.password}"
+                                   required autofocus="autofocus"  placeholder="Пароль" />
+                            <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                                   class="validation-message"></label>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="confirmPassword" class="form-control" th:field="${userDto.confirmPassword}"
+                                   required autofocus="autofocus"  placeholder="Пароль" />
+                            <label th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}"
+                                   class="validation-message"></label>
+                        </div>
+                        <p>
+                            <input type="submit" value="Регистрация" class="btn btn-primary" />
+                            <span> Если зарегистрированы </span> <a href="/" th:href="@{/login}"> Войти </a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-2 sidenav">
+            <div class="well">
+                <p>Рекламный блок</p>
+            </div>
+            <div class="well">
+                <p>Рекламный блок</p>
+            </div>
+        </div>
+    </div>
 </div>
-
-
-<div th:replace="fragments/footer.html :: footer"></div>
-
-
+<!-- /.container -->
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

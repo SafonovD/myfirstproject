@@ -21,7 +21,7 @@
 		<lombok.version>1.18.22</lombok.version>
 		<jquery.version>3.6.0</jquery.version>
 		<bootstrap.version>3.3.7</bootstrap.version>
-<!--		<junit-jupiter-engine.version>5.4.0</junit-jupiter-engine.version>-->
+<!--		<junit-jupiter-engine.version>4.4.0</junit-jupiter-engine.version>-->
 	</properties>
 	<dependencies>
 		<dependency>

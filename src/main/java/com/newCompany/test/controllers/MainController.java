@@ -18,10 +18,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -45,24 +46,6 @@ public class MainController {
     public String showIndex() {
         return "index";
     }
-
-//    @RequestMapping(value = "/themes", method = RequestMethod.GET)
-//    public String homePage(Model model, @RequestParam Optional<String> error, HttpServletRequest request) {
-//        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//        if (auth.isAuthenticated()) {
-//
-//            final Exam exam = examService.getRandomExam();
-//
-//            request.getSession().setAttribute("examId", exam.getId());
-////            Long id = (Long) request.getSession().getAttribute("examId");
-//
-//            model.addAttribute("examName", exam.getName());
-//            model.addAttribute("examDescription", exam.getDescription());
-////            model.addAttribute("id",id);
-//            return "/test/test";
-//        }
-//        return "/login";
-//    }
 
     @GetMapping("/login")
     public String login() {
@@ -92,7 +75,7 @@ public class MainController {
         final Exam examName = examService.save(examen);
 
         if (file != null) {
-            model.addAttribute("message", "Выберите CSV file для загрузки.");
+            model.addAttribute("message", "Файл успешно загружен");
             model.addAttribute("status", false);
             try (Reader reader = new BufferedReader(new InputStreamReader(file.getInputStream()))) {
                 CsvToBean<QuestionsAndAnswersDto> csvToBean = CsvMapper.getCsvToBeanBuild(reader);

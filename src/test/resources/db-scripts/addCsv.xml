@@ -23,7 +23,7 @@
             <column name="ID" type="BIGINT" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-            <column name="name" type="VARCHAR(400)">
+            <column name="name" type="VARCHAR(255)">
                 <constraints nullable="false" unique="true"/>
             </column>
             <column name="multi_answer" type="boolean" defaultValue="false">
@@ -49,7 +49,7 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
 
-            <column name="name" type="VARCHAR(400)">
+            <column name="name" type="VARCHAR(255)">
                 <constraints nullable="false" unique="true"/>
             </column>
 

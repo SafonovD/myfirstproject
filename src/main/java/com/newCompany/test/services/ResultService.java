@@ -3,7 +3,6 @@ package com.newCompany.test.services;
 import com.newCompany.test.model.Result;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ResultService {
 

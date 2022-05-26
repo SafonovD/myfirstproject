@@ -46,7 +46,6 @@ public class TestingController {
     private final ExamService examService;
     private final ResultService resultService;
 
-//    @RequestMapping(value = "/theme", method = RequestMethod.GET)
     @GetMapping("/theme")
     public String homePage(Model model, @RequestParam Optional<String> error, HttpServletRequest request) {
         final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -78,8 +77,9 @@ public class TestingController {
             final Long resultId = resultService.insertResult(result);
 
             final ExamDto attributeValueResult = new ExamDto(resultId, examId);
+
             model.addAttribute("results", attributeValueResult);
-            model.addAttribute("examName", String.format("Добро пожаловать \"%s\"!", exam.getName()));
+            model.addAttribute("examName", String.format("Добро пожаловать на тестирование по \"%s\"!", exam.getName()));
             model.addAttribute("questions", questionsMapper.questionsToDto(questions));
 
             request.getSession().setAttribute("examStarted", result.getStart().getTime());
@@ -89,7 +89,6 @@ public class TestingController {
 
             return "test";
         } else {
-
             return "redirect:/index";
         }
     }
@@ -112,11 +111,10 @@ public class TestingController {
         return answerMapper.answersToDTO(answerService.getAnswerForQuestion(questionId));
     }
 
-
-//    @RequestMapping(value = "/test/save", method = RequestMethod.POST)
     @PostMapping("/test/save")
-    public String submitResult(@Valid @ModelAttribute("results") ExamDto examDto, Model model,
+    public String submitResult(@Valid @ModelAttribute("results") ExamDto examDto,
                                BindingResult result, HttpServletRequest request) {
+
         if (result.hasErrors()) {
             // TODO?
         }
@@ -129,7 +127,6 @@ public class TestingController {
         resultTest.setFinish(Calendar.getInstance().getTime());
 
         resultService.calcGrade(resultTest, examDto.getExamId(), examDto.getAnswers());
-
         resultService.updateResult(resultTest);
 
         log.info("Submit: {}", resultTest);
@@ -137,9 +134,10 @@ public class TestingController {
         return "redirect:/stat/" + resultTest.getId();
     }
 
-//    @RequestMapping(value = "/stat/{id}", method = RequestMethod.GET)
     @GetMapping( "/stat/{id}")
     public String stat(@PathVariable("id") Long resultId, Model model) {
+        final Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
         if (resultId < 1) {
             return "redirect:/test";
         }
@@ -151,7 +149,7 @@ public class TestingController {
         log.info("Stat: {}", result);
 
         final Exam exam = examService.getExam(result.getExam().getId());
-        model.addAttribute("title", String.format("Твой тест %s", exam.getName()));
+        model.addAttribute("title", String.format("%s Результат Твоего теста по %s", auth.getName(), exam.getName()));
         model.addAttribute("start", result.getStart());
         model.addAttribute("finish", result.getFinish());
         model.addAttribute("questionCount", result.getQuestionCount());
@@ -159,8 +157,6 @@ public class TestingController {
         model.addAttribute("maxGrade", ResultServiceImpl.MAX_GRADE);
         return "stat";
     }
-
-
 
     @RequestMapping(value = "/time")
     @ResponseBody

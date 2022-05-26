@@ -1,66 +1,77 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title>Главная Страница</title>
+    <title>Страница тестов</title>
 
-    <div th:replace="fragments/header::header-css"></div>
+    <div th:replace="fragments/header :: header-css"></div>
 </head>
 <body>
 
-<div th:replace="fragments/header:: header"></div>
-<br><br><br><br><br><br>
+<div th:replace="fragments/header :: header"></div>
+<!-- container body -->
+<div class="container-fluid text-center">
+    <div class="row content">
+        <div class="col-sm-2 sidenav">
+            <p><a sec:authorize="hasAnyRole('ROLE_ADMIN')" th:href="@{/user}">Список пользователей</a></p>
+            <p><a sec:authorize="hasAnyRole('ROLE_ADMIN')" th:href="@{/admin}">Загрузка тестов</a></p>
+            <p><a th:href="@{/theme}">Темы тестирования</a></p>
+        </div>
+        <div class="col-sm-8 text-left">
+                <div><h3><label th:text="${examName}">Добро пожаловать на тест!</label></h3>
+                    <div class="form-group">
+                        <!--Таймер-->
+                        <input type="hidden" th:id="examTime" th:value="${examTime}">
+                        <div>Оставшееся время: <span id="tm"></span></div>
+                    </div>
+                    <hr>
+                    <!--    Вопросы-->
+                    <div class="form-group col-sm-10">
+                        <label for="questions">Выберите вопрос</label>
+                        <select class="form-control" id="questions" size="1"></select>
+                    </div>
+                    <div class="form-group col-sm-10 ">
+                        <!--    Вопрос-->
+                        <div class="form-group"><p id="question"></p></div>
+                        <!--    варианты ответов-->
+                        <div class="form-check" id="answers"></div>
+                    </div>
+                    <!-- кнопка следующего вопрос и завершить и сохранить-->
+                    <div class="form-group form-inline col-xs-8 ">
+                        <input class="form-group form-inline btn btn-primary" id="next" type="button" value="Следующий вопрос"/>
 
-<div class="container mt-5">
+                        <form class="form-group form-inline" th:action="@{/test/save}" th:object="${results}" th:method="post">
 
-    <div class="con"><h3><label th:text="${examName}">Добро пожаловать на тест!</label></h3>
-
-
-            <div class="form-group">
-                <!--Таймер-->
-                <input type="hidden" th:id="examTime" th:value="${examTime}">
-                <div>Оставшееся время: <span id="tm"></span></div>
+                            <input type="hidden" name="id" th:fild="*{id}" th:value="*{id}"/>
+                            <input type="hidden" name="examId" th:fild="*{examId}" th:value="*{examId}"/>
+                            <input type="hidden" name="answers" id="useranswers" th:fild="*{answers}"
+                                   th:value="*{answers}"/>
+                            <input class="form-group form-inline btn btn-danger" id="done" type="submit" value="Завершить"/>
+                        </form>
+                    </div>
+                </div>
+        </div>
+        <div class="col-sm-2 sidenav">
+            <div class="well">
+                <p>Рекламный блок</p>
             </div>
-            <!--    Вопросы-->
-            <div class="form-group col-xs-8">
-                <label for="questions">Выберите вопрос</label>
-                <select class="form-control" id="questions" size="1"></select>
+            <div class="well">
+                <p>Рекламный блок</p>
             </div>
-            <div class="form-group col-sm-10 ">
-                <!--    Вопрос-->
-                <div class="form-group"><p id="question"></p></div>
-                <!--    варианты ответов-->
-                <div class="form-check" id="answers"></div>
-            </div>
-
-        <!-- кнопка следующего вопрос и завершить и сохранить-->
-
-            <div class="form-group col-xs-8">
-                <input class="btn btn-primary" id="next" type="button" value="Следующий вопрос"/>
-
-                <form id="forma" th:action="@{/test/save}" th:object="${results}" th:method="post"
-                      th:if="${not #lists.isEmpty(results)}">
-
-                    <input type="hidden" th:fild="*{id}"/>
-                    <input type="hidden" th:fild="*{examId}"/>
-                    <input type="hidden" id="useranswers" th:fild="*{answers}"/>
-
-                    <input class="btn btn-danger form-group" id="done" type="submit" value="Завершить"/>
-                </form>
-            </div>
-
+        </div>
     </div>
 </div>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script th:inline="javascript">
-    var userAnswers = {};
+    let userAnswers = {};
     /*<![CDATA[*/
-    var questions = /*[[${questions}]]*/ [{'id': 1, 'multiAnswer': false, 'name': 'Вопрос?'}];
+    let questions = /*[[${questions}]]*/ [{'id': 1, 'multiAnswer': false, 'name': 'Вопрос?'}];
     /*]]>*/
     $(document).ready(function () {
         $("#next").click(nextHandler);
-        var q = $("#questions");
+        let q = $("#questions");
         $.each(questions, function () {
             q.append($("<option />").val(this.id).text(this.name));
         });
@@ -69,28 +80,28 @@
         q.change(comboHandler);
 
         function comboHandler() {
-            var elm = $('#questions option:selected');
-            var i = elm.index();
+            let elm = $('#questions option:selected');
+            let i = elm.index();
             $("#question").text(questions[i].name);
             loadAnswers(questions[i].id, questions[i].multiAnswer);
         }
 
         function loadAnswers(id, isMulti) {
-            var url = location.protocol + '//' + location.host + '/answers/' + id;
-            var answers = $('#answers');
+            let url = location.protocol + '//' + location.host + '/answers/' + id;
+            let answers = $('#answers');
             answers.empty();
             $.ajax({
                 url: url,
                 dataType: 'json',
                 type: 'GET',
                 success: function (data, status) {
-                    var elmType = isMulti ? "checkbox" : "radio";
+                    let elmType = isMulti ? "checkbox" : "radio";
                     $.each(data, function (i, v) {
-                        var btn = $("<input />", {type: elmType, name: 'answer', value: v.id, id: v.id});
+                        let btn = $("<input />", {type: elmType, name: 'answer', value: v.id, id: v.id});
                         if (userAnswers[v.id]) {
                             btn.attr("checked", true);
                         }
-                        var lab = $("<label />", {html: btn}).append(v.name);
+                        let lab = $("<label />", {html: btn}).append(v.name);
                         answers.append(btn, [lab, $("<br />")]);
                     });
                 },
@@ -101,13 +112,13 @@
 
         // кнопка обработки ответа - сохранить результат и перейти к следующему вопросу
         function nextHandler() {
-            var answers = $('#answers').children('input');
+            let answers = $('#answers').children('input');
             $.each(answers, function (i, elm) {
                 userAnswers[elm.id] = elm.checked;
             });
-            var elm = $('#questions option:selected');
-            var len = $('#questions').children('option').length;
-            var i = elm.index();
+            let elm = $('#questions option:selected');
+            let len = $('#questions').children('option').length;
+            let i = elm.index();
             /*<![CDATA[*/
             if (i == (len - 1)) {
                 $('#questions option:first-child').attr("selected", "selected");
@@ -127,11 +138,11 @@
         });
 
         // Таймер времени
-        var countDownTimer = parseInt($('#examTime').val());
+        let countDownTimer = parseInt($('#examTime').val());
 
         function timerFunction() {
-            var m = ((countDownTimer / 60) >> 0);
-            var s = (countDownTimer % 60);
+            let m = ((countDownTimer / 60) >> 0);
+            let s = (countDownTimer % 60);
             $('#tm').text(("00" + m).slice(-2) + ':' + ("00" + s).slice(-2));
             if (countDownTimer == 0) {
                 $('#done').click();
@@ -142,10 +153,7 @@
         setInterval(timerFunction, 1000);
     });
 </script>
-
 <!-- /.container -->
-
-<div th:replace="fragments/footer.html :: footer"></div>
-
+<div th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

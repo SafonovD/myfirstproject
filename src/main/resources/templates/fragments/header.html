@@ -1,53 +1,69 @@
+
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <div th:fragment="header-css">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-<!--        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+<div th:fragment="header-css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        .navbar {
+            margin-bottom: 0;
+            border-radius: 0;
+        }
+        .row.content {height: 450px}
 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-<!--              integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"-->
-<!--              crossorigin="anonymous">-->
-<!--        <link rel="stylesheet" th:href="@{/css/main.css}" href="../../css/main.css"/>-->
-        <!-- this is header-css -->
-    </div>
+        .sidenav {
+            padding-top: 20px;
+            background-color: #f1f1f1;
+            height: 100%;
+        }
+        footer {
+            background-color: #555;
+            color: white;
+            padding: 15px;
+        }
+        @media screen and (max-width: 767px) {
+            .sidenav {
+                height: 100%;
+                padding: 15px;
+            }
+            .row.content {height:auto;}
+        }
+    </style>
+</div>
 </head>
 <body>
 <div th:fragment="header">
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed"
-                        data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                    <span class="sr-only">Навигация</span>
-                </button>
-            </div>
-            <div class="collapse navbar-collapse" id="navbar">
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="navbar-link navbar-brand" href="/" th:href="@{/index}">Главная</a>
-                    </li>
-                    <li class="nav-item">
-                      <a sec:authorize="anonymous" class="navbar-link navbar-brand" href="/login" th:href="@{/login}">Войти</a>
-                    </li>
-                    <li class="nav-item">
-                        <a sec:authorize="anonymous" class="navbar-link navbar-brand" href="/registration" th:href="@{/registration}">Регистрация</a>
-                    </li>
-                    <li class="nav-item"><a class="navbar-link navbar-brand" th:href="@{/theme}">Темы тестов</a></li>
-                    <li>
-                        <a  sec:authorize="hasAnyRole('ROLE_ADMIN')" class="navbar-link navbar-brand" th:href="@{/user}">Список пользователей</a>
-                    </li>
-                    <li class="nav-item"><a class="navbar-link navbar-brand" sec:authorize="hasAnyRole('ROLE_ADMIN')" th:href="@{/admin}">Загрузка тестов</a></li>
-                </ul>
-                <div class="navbar-text navbar-right" >[[${#httpServletRequest.remoteUser}]]</div>
-                <a class="nav navbar-brand navbar-right" methods="post" sec:authorize="isAuthenticated()" th:href="@{/logout}">Выход</a>
-            </div>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Logo</a>
         </div>
-    </nav>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a class="navbar-link navbar-brand" href="/" th:href="@{/index}">Главная</a></li>
+                <li><a sec:authorize="anonymous" class="navbar-link navbar-brand" href="/registration" th:href="@{/registration}">Регистрация</a></li>
+                <li><a sec:authorize="hasAnyRole('ROLE_ADMIN')" class="navbar-link navbar-brand" th:href="@{/user}">Список пользователей</a></li>
+            </ul>
+            <div class="navbar-text navbar-right" >[[${#httpServletRequest.remoteUser}]]</div>
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a sec:authorize="anonymous" href="/login" th:href="@{/login}"><span class="glyphicon glyphicon-log-in"></span>Войти</a>
+                </li>
+                <li><a methods="post" sec:authorize="isAuthenticated()" th:href="@{/logout}"><span class="glyphicon glyphicon-log-out"></span> Выход</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
 </div>
 </body>
 </html>
